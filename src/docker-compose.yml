@@ -1,0 +1,22 @@
+# docker-compose.yml
+version: '3'
+
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.nextjs
+    ports:
+      - "3000:3000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    volumes:
+      - ./containers:/app/containers
+    networks:
+      - ai-orchestrator-network
+
+  # Note: Task containers aren't defined here because they're
+  # spawned dynamically by the orchestrator
+
+networks:
+  ai-orchestrator-network:
