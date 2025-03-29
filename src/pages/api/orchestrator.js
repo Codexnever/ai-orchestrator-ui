@@ -64,10 +64,13 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Orchestrator Error:', error);
-    logs.push(`Error: ${error.message}`);
+    const errorMessage = error.stack || error.message;
+    logs.push(`Error: ${errorMessage}`);
+    logs.push('Task execution failed');
     return res.status(500).json({ 
       error: error.message, 
-      logs 
+      logs,
+      details: error.stack
     });
   }
 }
